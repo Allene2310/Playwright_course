@@ -18,5 +18,27 @@ test('Testing multiple elements on the page', async ({page}) => {
             const itemText = await item.textContent();
             console.log(itemText);
         }
+});        
 
-});
+test('checking multiple checkboxes', async ({page}) => {
+  await page.goto('https://demo.opencart.ua/test');
+
+  const checkboxeLocators = [
+    page.getByRole('checkbox', { name: /Checkbox 1/i }),
+    page.getByRole('checkbox', { name: /Checkbox 2/i }),
+    ];
+  for (const locator of checkboxeLocators) {
+    await locator.check();
+  };
+  await page.waitForTimeout(5000); //pausing code
+
+  //uncheck all checkboxes
+  for (const locator of checkboxeLocators) {
+    if (await locator.isChecked()) 
+        {
+            await locator.uncheck();
+        }
+  };    
+
+}); 
+
